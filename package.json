@@ -1,0 +1,14 @@
+{
+  "name": "campus-desk",
+  "version": "1.0.0",
+  "description": "Attendance, expense and task tracker for students (Express + SQLite)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.2.0",
+    "express": "^4.21.0"
+  }
+}

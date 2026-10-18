@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Campus Desk</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- Page header -->
+    <header>
+      <div>
+        <h1>Campus Desk</h1>
+        <p>Attendance, spending and deadlines in one place.</p>
+      </div>
+      <button class="btn" id="theme-toggle" type="button">Switch theme</button>
+    </header>
+
+    <!-- Tabs -->
+    <nav role="tablist" aria-label="Tools">
+      <button role="tab" aria-selected="true"  data-tab="attendance" type="button">Attendance</button>
+      <button role="tab" aria-selected="false" data-tab="expenses"   type="button">Expenses</button>
+      <button role="tab" aria-selected="false" data-tab="tasks"      type="button">Tasks</button>
+    </nav>
+
+    <!-- 1. Attendance & bunk manager -->
+    <section id="attendance">
+      <div class="panel">
+        <h2>Add a subject</h2>
+        <div class="row">
+          <label>Subject <input id="subject-name" placeholder="e.g. DBMS"></label>
+          <label>Minimum % <input id="subject-min" type="number" min="1" max="99" value="75" style="width: 90px"></label>
+        </div>
+        <p class="muted" style="margin: 10px 0 6px">Class days</p>
+        <div class="days" id="subject-days"></div>
+        <p style="margin: 12px 0 0">
+          <button class="btn primary" id="add-subject" type="button">Add subject</button>
+        </p>
+      </div>
+
+      <div class="panel">
+        <h2 id="today-heading">Today</h2>
+        <div id="today-list"></div>
+      </div>
+
+      <div class="grid" id="subject-cards"></div>
+    </section>
+
+    <!-- 2. Expense tracker -->
+    <section id="expenses" hidden>
+      <div class="panel">
+        <h2>Log an expense</h2>
+        <div class="row">
+          <label>Amount (₹) <input id="expense-amount" type="number" min="0" style="width: 110px"></label>
+          <label>Category
+            <select id="expense-category">
+              <option>Food</option>
+              <option>Travel</option>
+              <option>Books</option>
+              <option>Laundry</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label>Date <input id="expense-date" type="date"></label>
+          <label>Note <input id="expense-note" placeholder="optional"></label>
+          <button class="btn primary" id="add-expense" type="button">Add expense</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="row" style="justify-content: space-between">
+          <h2 style="margin: 0">Monthly summary</h2>
+          <label>Month <input id="expense-month" type="month"></label>
+        </div>
+        <div class="big" id="expense-total"></div>
+        <div id="expense-breakdown"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Entries this month</h2>
+        <div id="expense-list"></div>
+      </div>
+    </section>
+
+    <!-- 3. Task board -->
+    <section id="tasks" hidden>
+      <div class="panel">
+        <h2>Add a task</h2>
+        <div class="row">
+          <label>Title <input id="task-title" placeholder="e.g. DBMS assignment 2"></label>
+          <label>Deadline <input id="task-deadline" type="date"></label>
+          <button class="btn primary" id="add-task" type="button">Add task</button>
+        </div>
+      </div>
+      <div class="board" id="board"></div>
+    </section>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
