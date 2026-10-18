@@ -1,13 +1,13 @@
 /* Opens the SQLite database file and creates the tables if they don't exist yet. */
-
+ 
 const Database = require("better-sqlite3");
 const path = require("path");
-
+ 
 const db = new Database(path.join(__dirname, "campusdesk.db"));
-
+ 
 // SQLite ignores foreign keys unless this is switched on
 db.pragma("foreign_keys = ON");
-
+ 
 db.exec(`
   CREATE TABLE IF NOT EXISTS subjects (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -17,7 +17,7 @@ db.exec(`
     attended    INTEGER NOT NULL DEFAULT 0,
     total       INTEGER NOT NULL DEFAULT 0
   );
-
+ 
   -- One row per subject per day, so a day can only be marked once
   CREATE TABLE IF NOT EXISTS attendance_log (
     subject_id INTEGER NOT NULL REFERENCES subjects(id) ON DELETE CASCADE,
@@ -25,7 +25,7 @@ db.exec(`
     status     TEXT    NOT NULL CHECK (status IN ('present', 'absent')),
     PRIMARY KEY (subject_id, date)
   );
-
+ 
   CREATE TABLE IF NOT EXISTS expenses (
     id       INTEGER PRIMARY KEY AUTOINCREMENT,
     amount   REAL NOT NULL CHECK (amount > 0),
@@ -33,7 +33,7 @@ db.exec(`
     date     TEXT NOT NULL,
     note     TEXT NOT NULL DEFAULT ''
   );
-
+ 
   CREATE TABLE IF NOT EXISTS tasks (
     id           INTEGER PRIMARY KEY AUTOINCREMENT,
     title        TEXT    NOT NULL,
@@ -41,6 +41,14 @@ db.exec(`
     column_index INTEGER NOT NULL DEFAULT 0 CHECK (column_index BETWEEN 0 AND 2),
     completed_on TEXT    NOT NULL DEFAULT ''
   );
+ 
+  -- Checklist items inside a task; deleted automatically with their task
+  CREATE TABLE IF NOT EXISTS subtasks (
+    id      INTEGER PRIMARY KEY AUTOINCREMENT,
+    task_id INTEGER NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
+    title   TEXT    NOT NULL,
+    done    INTEGER NOT NULL DEFAULT 0 CHECK (done IN (0, 1))
+  );
 `);
-
+ 
 module.exports = db;
